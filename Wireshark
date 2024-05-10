@@ -8,14 +8,14 @@ ether host 00:ff:11:22:33:ff                              #Filtruj ruch tylko z 
  
 Filtry Advance Network
 #####################
-Eth.src[1-2] = = !00:83                                  #Szukanie wszystkich mac addresów kart, które nie zaczynają się od 00:83
-Udp contains "DNS" && dns.qry.name = = "sekurak.pl"      #Filtruj zapytania dns dla konkrtnej doomeny
-Tcp.flags.syn = = 1                                      #Pokaż tylko flagi SYN
+Eth.src[1-2] = = !00:83                                   #Szukanie wszystkich mac addresów kart, które nie zaczynają się od 00:83
+Udp contains "DNS" && dns.qry.name = = "sekurak.pl"       #Filtruj zapytania dns dla konkrtnej doomeny
+Tcp.flags.syn = = 1                                       #Pokaż tylko flagi SYN
 Tcp[13] = = 0x12                                          #Filtruj pakiety SYN-ACK
 radius.access-request	                                    #Filtruj pakiety REQUEST serwera RADIUS
 radius.access-reject	                                    #Filtruj pakiety REJECT serwera RADIUS
-ip.id == 0 && tcp.analysis.retransmission	                #Filtruj retransmisjie TCP z zerowym ID IP
-arp.duplicate-address-detected	                          #Filtruj duplikaty pakietów ARP
+ip.id == 0 && tcp.analysis.retransmission                 #Filtruj retransmisjie TCP z zerowym ID IP
+arp.duplicate-address-detected                            #Filtruj duplikaty pakietów ARP
 
 Filtry Time
 ###################
