@@ -12,8 +12,8 @@ Eth.src[1-2] = = !00:83                                   #Szukanie wszystkich m
 Udp contains "DNS" && dns.qry.name = = "sekurak.pl"       #Filtruj zapytania dns dla konkrtnej doomeny
 Tcp.flags.syn = = 1                                       #Pokaż tylko flagi SYN
 Tcp[13] = = 0x12                                          #Filtruj pakiety SYN-ACK
-radius.access-request	                                    #Filtruj pakiety REQUEST serwera RADIUS
-radius.access-reject	                                    #Filtruj pakiety REJECT serwera RADIUS
+radius.access-request                                     #Filtruj pakiety REQUEST serwera RADIUS
+radius.access-reject                                      #Filtruj pakiety REJECT serwera RADIUS
 ip.id == 0 && tcp.analysis.retransmission                 #Filtruj retransmisjie TCP z zerowym ID IP
 arp.duplicate-address-detected                            #Filtruj duplikaty pakietów ARP
 
