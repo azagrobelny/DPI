@@ -30,7 +30,7 @@ Http.cookie contains "SESSIONID="                         #Filtruje pakiety ze s
 Tcp contains "GET" && http.host = = "sekurak.pl"          #Filtruje metody GET do konkretnego hosta
 Http.responce.status_code = = 200                         #Filtruj tylko odpowiedzi HTTP = 200
 http.request.uri matches ".*(\.jpg|\.png|\.gif)$"         #Filtruj ruch HTTP z obrazkami
-frame contains "passw0rd"	                                #Pakiety zawierające łańcuch "passw0rd" w dowolnym polu
+frame contains "passw0rd"                                 #Pakiety zawierające łańcuch "passw0rd" w dowolnym polu
 tcp contains "GET"                                        #Pakiety TCP zawierające łańcuch "GET" w dowolnym polu
 udp contains "DNS"                                        #Pakiety UDP zawierające łańcuch "DNS" w dowolnym polu
 http.request                                              #Filtruj pakiety zawierające HTTP REQUEST
