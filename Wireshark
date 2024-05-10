@@ -1,6 +1,6 @@
 Filtry Basic Network
 #####################
-ip.addr  == 10.1.0.52	                                    #Szukanie adresu stricte 10.1.0.52 w obu kierunkach
+ip.addr  == 10.1.0.52                                     #Szukanie adresu stricte 10.1.0.52 w obu kierunkach
 ip.src == 192.168.1.1/16                                  #Filtruj komunikację IP z SIECI 192.168.1.1 jako ADRES ŹRÓDŁOWY
 ip.dst == 192.168.1.1                                     #Filtruj komunikację z IP 192.168.1.1 jako ADRES DOCELOWY 
 tcp/udp/icmp/dns/http/ssl/smb/nbt/nbns/ftp/ssh/tls        #Filtruj komunikację konkretnego protokołu
