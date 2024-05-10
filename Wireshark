@@ -25,11 +25,11 @@ frame.len < 100	                                          #Pokaż pakiety z dłu
 
 Application 
 ###################
-Data-txt-lines = = "POST"	                                #Filtruje pakiety zawierające tekst "POST" w poli danych
-Http.cookie contains "SESSIONID="	                        #Filtruje pakiety ze specyficznym ciasteczkiem
-Tcp contains "GET" && http.host = = "sekurak.pl"	        #Filtruje metody GET do konkretnego hosta
-Http.responce.status_code = = 200	                        #Filtruj tylko odpowiedzi HTTP = 200
-http.request.uri matches ".*(\.jpg|\.png|\.gif)$"	        #Filtruj ruch HTTP z obrazkami
+Data-txt-lines = = "POST"                                 #Filtruje pakiety zawierające tekst "POST" w poli danych
+Http.cookie contains "SESSIONID="                         #Filtruje pakiety ze specyficznym ciasteczkiem
+Tcp contains "GET" && http.host = = "sekurak.pl"          #Filtruje metody GET do konkretnego hosta
+Http.responce.status_code = = 200                         #Filtruj tylko odpowiedzi HTTP = 200
+http.request.uri matches ".*(\.jpg|\.png|\.gif)$"         #Filtruj ruch HTTP z obrazkami
 frame contains "passw0rd"	                                #Pakiety zawierające łańcuch "passw0rd" w dowolnym polu
 tcp contains "GET"                                        #Pakiety TCP zawierające łańcuch "GET" w dowolnym polu
 udp contains "DNS"                                        #Pakiety UDP zawierające łańcuch "DNS" w dowolnym polu
