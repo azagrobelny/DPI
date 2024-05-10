@@ -19,7 +19,7 @@ arp.duplicate-address-detected	                          #Filtruj duplikaty paki
 
 Filtry Time
 ###################
-frame.time >= "2023-04-19 20:00:00"                      #Pokaż pakiety od określonego czasu
+frame.time >= "2023-04-19 20:00:00"                       #Pokaż pakiety od określonego czasu
 frame.time_delta >= 0.1	                                  #Pokaż pakiety których różnica czasu DELTA jest większa lub równa 0.1 sekundy
 frame.len < 100	                                          #Pokaż pakiety z długością ramki mniej niż 100 bajtów
 
