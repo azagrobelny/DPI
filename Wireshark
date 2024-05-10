@@ -1,0 +1,60 @@
+Filtry Basic Network
+#####################
+ip.addr  == 10.1.0.52	                                    #Szukanie adresu stricte 10.1.0.52 w obu kierunkach
+ip.src == 192.168.1.1/16	                                #Filtruj komunikację IP z SIECI 192.168.1.1 jako ADRES ŹRÓDŁOWY
+ip.dst == 192.168.1.1                                     #Filtruj komunikację z IP 192.168.1.1 jako ADRES DOCELOWY 
+tcp/udp/icmp/dns/http/ssl/smb/nbt/nbns/ftp/ssh/tls        #Filtruj komunikację konkretnego protokołu
+ether host 00:ff:11:22:33:ff                              #Filtruj ruch tylko z konkretnego adresu MAC
+ 
+Filtry Advance Network
+#####################
+Eth.src[1-2] = = !00:83	                                  #Szukanie wszystkich mac addresów kart, które nie zaczynają się od 00:83
+Udp contains "DNS" && dns.qry.name = = "sekurak.pl"	      #Filtruj zapytania dns dla konkrtnej doomeny
+Tcp.flags.syn = = 1	                                      #Pokaż tylko flagi SYN
+Tcp[13] = = 0x12	                                        #Filtruj pakiety SYN-ACK
+radius.access-request	                                    #Filtruj pakiety REQUEST serwera RADIUS
+radius.access-reject	                                    #Filtruj pakiety REJECT serwera RADIUS
+ip.id == 0 && tcp.analysis.retransmission	                #Filtruj retransmisjie TCP z zerowym ID IP
+arp.duplicate-address-detected	                          #Filtruj duplikaty pakietów ARP
+
+Filtry Time
+###################
+frame.time >= "2023-04-19 20:00:00"	                      #Pokaż pakiety od określonego czasu
+frame.time_delta >= 0.1	                                  #Pokaż pakiety których różnica czasu DELTA jest większa lub równa 0.1 sekundy
+frame.len < 100	                                          #Pokaż pakiety z długością ramki mniej niż 100 bajtów
+
+Application 
+###################
+Data-txt-lines = = "POST"	                                #Filtruje pakiety zawierające tekst "POST" w poli danych
+Http.cookie contains "SESSIONID="	                        #Filtruje pakiety ze specyficznym ciasteczkiem
+Tcp contains "GET" && http.host = = "sekurak.pl"	        #Filtruje metody GET do konkretnego hosta
+Http.responce.status_code = = 200	                        #Filtruj tylko odpowiedzi HTTP = 200
+http.request.uri matches ".*(\.jpg|\.png|\.gif)$"	        #Filtruj ruch HTTP z obrazkami
+frame contains "passw0rd"	                                #Pakiety zawierające łańcuch "passw0rd" w dowolnym polu
+tcp contains "GET"	                                      #Pakiety TCP zawierające łańcuch "GET" w dowolnym polu
+udp contains "DNS"	                                      #Pakiety UDP zawierające łańcuch "DNS" w dowolnym polu
+http.request	                                            #Filtruj pakiety zawierające HTTP REQUEST
+http.response	                                            #Filtruj pakiety zawierające HTTP RESPONSE
+
+Deszyfracja ruchu 
+####################
+Scenariusz: Łapiemy ruch na jednym z końców komunikacji.
+Krok 1. Zdefinioawanie zmiennej środowiskoej SSLKEYLOGFILE. Zmienna ta loguje do pliku całą wymianę kluczy jaka ma miejsće pomiędzy przeglądarką a daną stroną która jest odwiedzana. 
+Lub na WINDOWS Cmd-> stystempropertiesadvanced.exe
+Krok2. 
+Zebrać ruch wiresharkiem i go otworzyć
+Krok3.
+Z menu wybieramy edycja -> preference ->protokoły -> tls -> i w polu (PRE)-Master-Secret log filname wskzaujemy plik z kroku 1
+Krok4.
+Wybierając pakiet TLS, pokazuje się nam nowa zakładka Decrypted TLS
+ 
+Weryfikacja Fingerprint
+#######################
+Krok 1. Złapać pcap i znaleść pakiet z Server Hello
+Krok 2. W nagłówku Transport Layer Securty w polu Handshake Protocol szukamy pozycji JA3 - który stnowi odcisk palca 
+Krok 3. Kopiujemy na stronę poniżej i sprawdzamy
+Baza do weryfikacji:
+https://sslbl.abuse.ch/ja3-fingerprints/
+
+
+
