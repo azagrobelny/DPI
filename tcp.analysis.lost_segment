@@ -1,0 +1,16 @@
+Co oznacza tcp.analysis.lost_segment?
+To flaga analityczna generowana przez Wiresharka, która wskazuje, że w strumieniu TCP wystąpiła luka w numeracji sekwencyjnej (Sequence Numbers). Oznacza to, że Wireshark zarejestrował pakiet z wyższym numerem sekwencyjnym, podczas gdy wcześniejszy pakiet z brakującego zakresu nigdy do niego nie dotarł (lub nie został przechwycony w pliku pcap).
+Jak Wireshark to wykrywa?
+Protokół TCP opiera niezawodność na numerach sekwencyjnych (Sequence Number), gdzie każdy bajt danych ma przypisany unikalny numer. Silnik analityczny Wiresharka śledzi ciągłość tych numerów. Jeśli po pakiecie kończącym się np. na sekwencji 1460 pojawia się pakiet zaczynający się od numeru 4381 (pomijając zakres 1461–4380), algorytm natychmiast kwalifikuje tę przestrzeń jako utracony segment (lost_segment).
+Różnica między lost_segment a retransmission
+tcp.analysis.lost_segment: Sygnalizuje brak ciągłości w danych odbieranych przez punkt pomiarowy – brakuje fragmentu strumienia w oczekiwanej kolejności.
+tcp.analysis.retransmission: Oznacza, że konkretny pakiet (z tym samym numerem sekwencyjnym) został wysłany przez nadawcę ponownie, ponieważ nie doczekał się wcześniejszego potwierdzenia (ACK).
+Wpływ na opóźnienia aplikacji
+Obecność tej flagi niemal zawsze oznacza chwilowy przestój w działaniu aplikacji:
+Odbiorca zauważa dziurę w sekwencji i natychmiast wysyła pakiety Duplicate ACK, żądając brakującego fragmentu.
+Nadawca po wykryciu braku potwierdzenia uruchamia Fast Retransmit (lub czeka na upłynięcie timera RTO – Retransmission Timeout).
+Warstwa aplikacyjna wstrzymuje przetwarzanie danych, dopóki brakujące segmenty nie zostaną doręczone i ułożone w odpowiedniej kolejności w buforze TCP.
+Pułapka interpretacji (Miejsce zrzutu ruchu)
+To, czy lost_segment oznacza realny problem w sieci, zależy od tego, gdzie zbierano pakiety:
+Zrzut po stronie docelowej (np. serwera lub klienta): Oznacza fizyczną utratę pakietów po drodze (np. błędy na łączu radiowym, kolejkowanie i odrzucanie pakietów przez router/firewall) lub problem z buforem karty sieciowej.
+Zrzut centralny / po stronie nadawcy: Często jest efektem asymetrycznego routingu – Wireshark widzi ruch w jedną stronę na jednym porcie switcha, podczas gdy ruch powrotny lub część strumienia idzie zupełnie inną ścieżką sieciową.
